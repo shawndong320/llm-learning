@@ -78,11 +78,11 @@ uv venv --python 3.11
 source .venv/bin/activate
 
 # 基础依赖
-pip install torch torchvision torchaudio
-pip install numpy pandas matplotlib tqdm einops tiktoken
-pip install transformers datasets accelerate peft trl
-pip install sentence-transformers faiss-cpu chromadb
-pip install jupyter ipykernel
+uv pip install torch torchvision torchaudio
+uv pip install numpy pandas matplotlib tqdm einops tiktoken
+uv pip install transformers datasets accelerate peft trl
+uv pip install sentence-transformers faiss-cpu chromadb
+uv pip install jupyter ipykernel
 ```
 
 ## Obsidian 结构
