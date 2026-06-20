@@ -75,14 +75,13 @@ mkdir notes
 # 推荐用 uv 管理环境（CS336 官方推荐）
 pip install uv
 uv venv --python 3.11
-source .venv/bin/activate
 
 # 基础依赖
-uv pip install torch torchvision torchaudio
-uv pip install numpy pandas matplotlib tqdm einops tiktoken
-uv pip install transformers datasets accelerate peft trl
-uv pip install sentence-transformers faiss-cpu chromadb
-uv pip install jupyter ipykernel
+uv add numpy pandas matplotlib tqdm einops tiktoken
+uv add torch torchvision torchaudio
+uv add transformers datasets accelerate peft trl
+uv add sentence-transformers faiss-cpu chromadb
+uv add jupyter ipykernel
 ```
 
 ## Obsidian 结构
