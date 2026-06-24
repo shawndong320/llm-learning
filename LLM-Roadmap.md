@@ -1,82 +1,82 @@
-# LLM 自学路线
+# LLM Self-Study Roadmap
 
-**主轴顺序：Transformer → Tokenizer → Pretraining → Inference → Scaling → Data → PEFT/SFT → Alignment → RAG → Agent → Evaluation**
+**Main sequence: Transformer → Tokenizer → Pretraining → Inference → Scaling → Data → PEFT/SFT → Alignment → RAG → Agent → Evaluation**
 
-以三门课为主轴：
+Use three courses as the main axis:
 
-- **CS336：主线，动手实现 LLM from scratch**（Stanford 2026 "Language Modeling from Scratch"）→ [cs336.stanford.edu](https://cs336.stanford.edu/)
-- **CS324：理论框架**，补 modeling / training / data / scaling / adaptation / parallelism → [stanford-cs324.github.io](https://stanford-cs324.github.io/winter2022/lectures/)
-- **CS25：视野扩展**，只选和 LLM 主线强相关的讲座，不全看 → [web.stanford.edu/class/cs25](https://web.stanford.edu/class/cs25/)
+- **CS336: the main line, hands-on implementation of an LLM from scratch** (Stanford 2026 "Language Modeling from Scratch") → [cs336.stanford.edu](https://cs336.stanford.edu/)
+- **CS324: theoretical framework**, supplementing modeling / training / data / scaling / adaptation / parallelism → [stanford-cs324.github.io](https://stanford-cs324.github.io/winter2022/lectures/)
+- **CS25: broader perspective**, only select lectures strongly related to the LLM main line; do not watch everything → [web.stanford.edu/class/cs25](https://web.stanford.edu/class/cs25/)
 
-辅助资源：
+Supplementary resources:
 
-- **Karpathy: Neural Networks: Zero to Hero** → [karpathy.ai/zero-to-hero.html](https://karpathy.ai/zero-to-hero.html)（Week 1–4 必配）
-- **nanoGPT**（Week 4–5 代码精读）→ [github.com/karpathy/nanoGPT](https://github.com/karpathy/nanoGPT)
-
----
-
-## 总体原则：每周固定四步法
-
-```
-1. 看课：先建立概念地图
-2. 读论文：只读和本周主题强相关的部分
-3. 写代码：必须产出 notebook / repo commit
-4. 写总结：用自己的话解释，形成 Obsidian 笔记
-```
-
-**只看课是最大的陷阱。代码 + 总结才是真正的学习。**
+- **Karpathy: Neural Networks: Zero to Hero** → [karpathy.ai/zero-to-hero.html](https://karpathy.ai/zero-to-hero.html) (essential companion for Weeks 1–4)
+- **nanoGPT** (close code reading in Weeks 4–5) → [github.com/karpathy/nanoGPT](https://github.com/karpathy/nanoGPT)
 
 ---
 
-## 三个项目：有联动，不孤立
+## Overall Principle: Fixed Four-Step Method Each Week
 
 ```
-tiny-gpt-from-scratch          ← 基础模型，Week 2–5 建立
-  ↓ 复用 train.py
-data-quality-for-language-modeling  ← 数据实验，Week 7 建立
-  ↓ clean data 反哺训练
-paper-rag-assistant            ← 应用层，Week 11 建立
-  ↓ 用于 Week 12 benchmark 的答案来源
+1. Watch lectures: first build a conceptual map
+2. Read papers: only read the parts strongly related to this week’s topic
+3. Write code: must produce a notebook / repo commit
+4. Write a summary: explain in your own words and form Obsidian notes
 ```
 
-三个 repo 形成一条链：训练 → 数据 → 应用。
+**Only watching lectures is the biggest trap. Code + summaries are the real learning.**
 
 ---
 
-## 时间分配（每周 8–10 小时）
+## Three Projects: Connected, Not Isolated
 
-| 模块   | 时间     |
-| ------ | -------- |
-| 看课   | 2 小时   |
-| 读论文 | 2 小时   |
-| 写代码 | 4 小时   |
-| 写总结 | 1–2 小时 |
+```
+tiny-gpt-from-scratch          ← foundational model, built in Weeks 2–5
+  ↓ reuse train.py
+data-quality-for-language-modeling  ← data experiment, built in Week 7
+  ↓ clean data feeds back into training
+paper-rag-assistant            ← application layer, built in Week 11
+  ↓ used as the answer source for the Week 12 benchmark
+```
 
-Week 5（代码重整）和 Week 9（LoRA 实验）预留 12–15 小时，不要压缩。
+The three repos form one chain: training → data → application.
 
 ---
 
-# Week 0：环境准备
+## Time Allocation (8–10 hours per week)
 
-## 目标
+| Module         | Time      |
+| -------------- | --------- |
+| Watch lectures | 2 hours   |
+| Read papers    | 2 hours   |
+| Write code     | 4 hours   |
+| Write summary  | 1–2 hours |
 
-把开发环境、阅读环境、笔记结构搭好。不算正式学习周。
+Reserve 12–15 hours for Week 5 (code cleanup) and Week 9 (LoRA experiments). Do not compress them.
 
-## 代码任务
+---
+
+# Week 0: Environment Setup
+
+## Goal
+
+Set up the development environment, reading environment, and note structure. This is not counted as an official learning week.
+
+## Code Tasks
 
 ```bash
-# 建立 repo 结构
+# Create repo structure
 mkdir llm-learning && cd llm-learning
 mkdir tiny-gpt-from-scratch
 mkdir data-quality-for-language-modeling
 mkdir paper-rag-assistant
 mkdir notes
 
-# 推荐用 uv 管理环境（CS336 官方推荐）
+# Recommended to use uv for environment management (officially recommended by CS336)
 pip install uv
 uv venv --python 3.11
 
-# 基础依赖
+# Basic dependencies
 uv add numpy pandas matplotlib tqdm einops tiktoken
 uv add torch torchvision torchaudio
 uv add transformers datasets accelerate peft trl
@@ -84,7 +84,7 @@ uv add sentence-transformers faiss-cpu chromadb
 uv add jupyter ipykernel
 ```
 
-## Obsidian 结构
+## Obsidian Structure
 
 ```
 LLM/
@@ -107,126 +107,126 @@ LLM/
 
 ---
 
-# Week 1：LLM 全局框架 + Transformer 直觉
+# Week 1: Global LLM Framework + Transformer Intuition
 
-## 目标
+## Goal
 
-建立完整的 LLM pipeline 心智模型：
+Build a complete mental model of the LLM pipeline:
 
 ```
 data → tokenizer → Transformer → pretraining → SFT → alignment → inference → evaluation
 ```
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS25 V6：Overview of Transformers**
-   - Transformer 为什么重要
-   - NLP → LLM 的演变史
-   - attention 的直觉
-   - 当前挑战
+1. **CS25 V6: Overview of Transformers**
+   - Why Transformer matters
+   - The evolution from NLP to LLMs
+   - Intuition behind attention
+   - Current challenges
 
-2. **CS324：Introduction**
+2. **CS324: Introduction**
 
-3. **CS324：Capabilities**
+3. **CS324: Capabilities**
 
-4. **Karpathy：The spelled-out intro to neural networks and backpropagation**（makemore Part 1）
-   - 不要跳过，这是理解梯度流动的最佳入门
+4. **Karpathy: The spelled-out intro to neural networks and backpropagation** (makemore Part 1)
+   - Do not skip this. It is the best entry point for understanding gradient flow.
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
 1. **Attention Is All You Need**
    - Abstract + Introduction
    - Section 3 Model Architecture
    - Figure 1
-   - Table 2（BLEU scores，感受规模）
+   - Table 2 (BLEU scores; get a feel for scale)
 
-略读：
+Skim:
 
 1. **GPT-2: Language Models are Unsupervised Multitask Learners**
    - Abstract + Introduction
-   - Dataset 部分
-   - Results 部分
+   - Dataset section
+   - Results section
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-写 `attention_demo.ipynb`：
+Write `attention_demo.ipynb`:
 
 ```python
-# 三个实验
-# 1. 不加 mask 的 self-attention
+# Three experiments
+# 1. Self-attention without mask
 scores = Q @ K.T / sqrt(d_k)
 weights = softmax(scores)
 output = weights @ V
 
-# 2. 加 causal mask 的 self-attention
+# 2. Self-attention with causal mask
 mask = torch.tril(torch.ones(seq_len, seq_len))
 scores = scores.masked_fill(mask == 0, float('-inf'))
 
-# 3. 改变 sequence length，观察 attention matrix 大小
+# 3. Change sequence length and observe the size of the attention matrix
 ```
 
-## Step 4：总结
+## Step 4: Summary
 
-写：
+Write:
 
 ```
 01_Transformer.md
 Papers/Attention_Is_All_You_Need.md
 ```
 
-必须回答：
+Must answer:
 
 ```
-1. Transformer 解决了 RNN 的什么问题？
-2. attention 的直觉是什么？
-3. causal self-attention 和普通 self-attention 的区别？
-4. 为什么 attention 适合大规模并行训练？
-5. 我还有哪些不懂？
+1. What problem of RNNs did Transformer solve?
+2. What is the intuition behind attention?
+3. What is the difference between causal self-attention and ordinary self-attention?
+4. Why is attention suitable for large-scale parallel training?
+5. What do I still not understand?
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能手画 Transformer pipeline（从 token → embedding → attention → logits）？
+> Can I draw the Transformer pipeline by hand, from token → embedding → attention → logits?
 
 ---
 
-# Week 2：PyTorch / einops / Transformer Block
+# Week 2: PyTorch / einops / Transformer Block
 
-## 目标
+## Goal
 
-能手写一个最小 Transformer Block，理解每个 tensor 的 shape。
+Be able to hand-write a minimal Transformer Block and understand the shape of every tensor.
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS336 Lecture 1：Overview, tokenization**
-2. **CS336 Lecture 2：PyTorch, einops, resource accounting**
-3. **CS336 Lecture 3：Architectures, hyperparameters**
-4. **Karpathy：makemore Part 3**（Backprop ninja，理解梯度计算）
+1. **CS336 Lecture 1: Overview, tokenization**
+2. **CS336 Lecture 2: PyTorch, einops, resource accounting**
+3. **CS336 Lecture 3: Architectures, hyperparameters**
+4. **Karpathy: makemore Part 3** (Backprop ninja; understand gradient computation)
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
-1. **Attention Is All You Need**（第二遍，精读架构细节）
+1. **Attention Is All You Need** (second pass, close reading of architectural details)
    - Section 3.1 Encoder and Decoder Stacks
-   - Section 3.2 Attention（多头，公式）
+   - Section 3.2 Attention (multi-head, formulas)
    - Section 3.4 Embeddings and Softmax
    - Section 3.5 Positional Encoding
 
-辅助：
+Supplement:
 
-1. **The Illustrated Transformer**（Jay Alammar）
-   - 只看架构图和 attention 部分
+1. **The Illustrated Transformer** (Jay Alammar)
+   - Only look at the architecture diagrams and attention sections
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-在 `tiny-gpt-from-scratch/model.py` 实现：
+Implement in `tiny-gpt-from-scratch/model.py`:
 
 ```python
 class CausalSelfAttention(nn.Module):
-    # Q, K, V 投影
+    # Q, K, V projections
     # scaled dot-product
     # causal mask
     # multi-head concat
@@ -244,7 +244,7 @@ class GPT(nn.Module):
     # final LayerNorm → linear head
 ```
 
-验证：
+Validation:
 
 ```python
 x = torch.randint(0, vocab_size, (batch_size, seq_len))
@@ -252,133 +252,133 @@ logits = model(x)
 assert logits.shape == (batch_size, seq_len, vocab_size)
 ```
 
-## Step 4：总结
+## Step 4: Summary
 
-写：
+Write:
 
 ```
 Code_Notes/Transformer_Block_From_Scratch.md
 ```
 
-回答：
+Answer:
 
 ```
-1. input token ids 如何一步步变成 logits？（shape 全程追踪）
-2. Q/K/V 的 shape 分别是什么？
-3. Pre-LN 和 Post-LN 有什么区别？
-4. residual connection 为什么重要？
-5. einops 解决了什么问题？
+1. How do input token IDs become logits step by step? Track shapes throughout.
+2. What are the shapes of Q/K/V respectively?
+3. What is the difference between Pre-LN and Post-LN?
+4. Why are residual connections important?
+5. What problem does einops solve?
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能解释 Q/K/V 的 shape，并说清楚 multi-head attention 的拼接逻辑？
+> Can I explain the shapes of Q/K/V and clearly describe the concatenation logic of multi-head attention?
 
 ---
 
-# Week 3：Tokenizer / BPE
+# Week 3: Tokenizer / BPE
 
-## 目标
+## Goal
 
-理解 tokenizer 不是小细节，而是 LLM 的输入层。中文和代码的 tokenization 问题尤其重要。
+Understand that the tokenizer is not a minor detail, but the input layer of an LLM. Tokenization issues in Chinese and code are especially important.
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS336 Lecture 1：tokenization 部分**（重看）
-2. **CS324：Data**（重点：数据来源、pretraining data 构成）
-3. **Karpathy：Let's build the GPT tokenizer**（YouTube，约 2 小时，强烈推荐）
+1. **CS336 Lecture 1: tokenization section** (rewatch)
+2. **CS324: Data** (focus: data sources and the composition of pretraining data)
+3. **Karpathy: Let’s build the GPT tokenizer** (YouTube, about 2 hours, strongly recommended)
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
-1. **Neural Machine Translation of Rare Words with Subword Units**（BPE 原论文）
+1. **Neural Machine Translation of Rare Words with Subword Units** (original BPE paper)
    - Abstract + Introduction
-   - BPE merge 规则部分
+   - BPE merge rule section
 
-略读：
+Skim:
 
 1. **SentencePiece**
    - Abstract + Introduction
-   - 和 BPE / WordPiece 的区别
+   - Differences from BPE / WordPiece
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-实现简化版 BPE：
+Implement a simplified BPE:
 
 ```python
 # tokenizer.py
 def train_bpe(corpus: str, vocab_size: int) -> dict:
-    # 统计字符对频率
-    # 迭代 merge 最高频对
-    # 返回 merge rules
+    # Count character-pair frequencies
+    # Iteratively merge the most frequent pair
+    # Return merge rules
 
 def encode(text: str) -> list[int]: ...
 def decode(token_ids: list[int]) -> str: ...
 ```
 
-实验：用三段文本对比：
+Experiment: compare three text segments:
 
 ```
-1. 英文新闻段落
-2. 中文段落（体会为什么中文 token 效率低）
-3. Python 代码片段
+1. English news paragraph
+2. Chinese paragraph (understand why Chinese token efficiency is low)
+3. Python code snippet
 ```
 
-记录：原始字符数 / token 数 / 压缩比 / 奇怪切分案例
+Record: original character count / token count / compression ratio / strange segmentation cases
 
-## Step 4：总结
+## Step 4: Summary
 
-写 `02_Tokenization.md`，回答：
+Write `02_Tokenization.md`, and answer:
 
 ```
-1. 为什么不能直接用 word-level tokenizer？
-2. BPE 的 merge 规则如何学习？
-3. 中文 token 效率低的根本原因？
-4. 代码数据为什么对 tokenizer 特别敏感？
-5. tokenizer 如何影响 context window 利用率？
+1. Why not directly use a word-level tokenizer?
+2. How are BPE merge rules learned?
+3. What is the root cause of low token efficiency in Chinese?
+4. Why is code data especially sensitive to tokenizer design?
+5. How does the tokenizer affect context window utilization?
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能自己实现一个简化 BPE，并解释中文 token 效率问题？
+> Can I implement a simplified BPE by myself and explain the Chinese token efficiency problem?
 
 ---
 
-# Week 4：训练 tiny GPT
+# Week 4: Training a Tiny GPT
 
-## 目标
+## Goal
 
-跑通第一个真正的 language model training loop。**本周重点是 nanoGPT 代码精读，不建议完全从零造轮子。**
+Run through the first real language model training loop. **This week’s focus is close reading of nanoGPT code. It is not recommended to build everything completely from scratch.**
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS336 Lecture 3：Architectures, hyperparameters**
-2. **CS324：Modeling**
-3. **CS324：Training**
-4. **Karpathy：Let's build GPT from scratch**（YouTube，最重要的一讲）
+1. **CS336 Lecture 3: Architectures, hyperparameters**
+2. **CS324: Modeling**
+3. **CS324: Training**
+4. **Karpathy: Let’s build GPT from scratch** (YouTube, the most important lecture)
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
 1. **GPT-2**
-   - Model 部分
-   - Training dataset 部分
+   - Model section
+   - Training dataset section
    - Zero-shot results
 
-略读：
+Skim:
 
 1. **GPT-3**
    - Abstract + Introduction
    - Model and Architectures
-   - Few-shot / one-shot / zero-shot 定义
+   - Definitions of few-shot / one-shot / zero-shot
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-**先精读 nanoGPT**（[github.com/karpathy/nanoGPT](https://github.com/karpathy/nanoGPT)），在注释里写清楚每个部分做什么。
+**First read nanoGPT closely** ([github.com/karpathy/nanoGPT](https://github.com/karpathy/nanoGPT)), and write comments explaining what each part does.
 
-然后在自己的 `train.py` 里完成：
+Then complete the following in your own `train.py`:
 
 ```python
 # train.py
@@ -398,7 +398,7 @@ def train():
             generate_sample()
 ```
 
-最小模型配置：
+Minimal model configuration:
 
 ```python
 n_layer = 2
@@ -408,60 +408,60 @@ block_size = 128
 batch_size = 32
 ```
 
-数据集优先用 TinyStories，或 Shakespeare / WikiText-2。
+Prefer using TinyStories, Shakespeare, or WikiText-2 as the dataset.
 
-产出：training loss curve + validation loss curve + 每 500 步生成一次文本。
+Deliverables: training loss curve + validation loss curve + generated text every 500 steps.
 
-## Step 4：总结
+## Step 4: Summary
 
-写 `03_Pretraining.md`，回答：
+Write `03_Pretraining.md`, and answer:
 
 ```
-1. next-token prediction 在预测什么？
-2. cross entropy loss 和 perplexity 的关系？
-3. 为什么 validation loss 比 training loss 更重要？
-4. temperature 如何影响生成？
-5. 你的 tiny GPT 现在最明显的缺陷是什么？
+1. What is next-token prediction predicting?
+2. What is the relationship between cross entropy loss and perplexity?
+3. Why is validation loss more important than training loss?
+4. How does temperature affect generation?
+5. What is the most obvious limitation of your tiny GPT right now?
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能训练一个 tiny GPT 并生成文本，并解释 loss curve 说明了什么？
+> Can I train a tiny GPT, generate text, and explain what the loss curve shows?
 
 ---
 
-# Week 5：代码整理 + CS336 Assignment 1 标准化
+# Week 5: Code Cleanup + CS336 Assignment 1 Standardization
 
-## 目标
+## Goal
 
-把 Week 2–4 的代码整理到接近生产标准。**这周是工程周，不引入新概念。**
+Clean up the code from Weeks 2–4 to near production standard. **This is an engineering week and does not introduce new concepts.**
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS336 Assignment 1 handout**（精读要求）
-2. **CS336 Lecture 1–3 回看**（补漏洞）
-3. **CS336 Lecture 4：Attention alternatives and MoE**（只看前半部分）
+1. **CS336 Assignment 1 handout** (read requirements closely)
+2. **CS336 Lectures 1–3 rewatch** (fill gaps)
+3. **CS336 Lecture 4: Attention alternatives and MoE** (only watch the first half)
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
 1. **AdamW: Decoupled Weight Decay Regularization**
    - Abstract
-   - AdamW 和 Adam 的核心区别
+   - Core difference between AdamW and Adam
 
-略读：
+Skim:
 
-1. **Switch Transformer**（只需理解 MoE 是什么）
+1. **Switch Transformer** (only need to understand what MoE is)
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-整理 repo 结构：
+Clean up the repo structure:
 
 ```
 tiny-gpt-from-scratch/
-  README.md          ← 必须完整
-  config.py          ← 所有超参数集中管理
+  README.md          ← must be complete
+  config.py          ← centralize all hyperparameters
   tokenizer.py
   model.py
   train.py
@@ -472,10 +472,10 @@ tiny-gpt-from-scratch/
     attention_demo.ipynb
 ```
 
-补齐以下内容：
+Complete the following:
 
 ```python
-# AdamW + 学习率调度
+# AdamW + learning rate schedule
 optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.1)
 
 # Warmup + cosine decay
@@ -492,71 +492,71 @@ torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
 torch.save({'model': model.state_dict(), 'step': step}, 'ckpt.pt')
 ```
 
-README 必须包括：
+README must include:
 
 ```
-1. Problem（这个项目解决什么问题）
-2. Architecture（模型结构）
-3. Dataset（数据集说明）
-4. Training setup（超参数）
-5. Loss curve（截图）
-6. Sample generations（生成样例）
-7. Limitations（当前局限）
+1. Problem (what problem this project solves)
+2. Architecture (model structure)
+3. Dataset (dataset description)
+4. Training setup (hyperparameters)
+5. Loss curve (screenshot)
+6. Sample generations (generation examples)
+7. Limitations (current limitations)
 8. What I learned
 ```
 
-## Step 4：总结
+## Step 4: Summary
 
-写：
+Write:
 
 ```
 Projects/tiny-gpt-from-scratch.md
 ```
 
-这是第一个可以放 GitHub 的项目报告。
+This is the first project report that can be put on GitHub.
 
-## 验收标准
+## Acceptance Standard
 
-> 我的 tiny-gpt-from-scratch repo 是否有完整 README，能让别人直接跑起来？
+> Does my tiny-gpt-from-scratch repo have a complete README that lets others run it directly?
 
 ---
 
-# Week 6：Inference / Decoding / KV Cache
+# Week 6: Inference / Decoding / KV Cache
 
-> **⚠️ 调整说明：Inference 从原 Week 8 提前到 Week 6。**
-> 理由：理解 generation（temperature、top-k、KV cache）是理解 SFT 实验结果的前提，不应该放在 alignment 之后。
+> **⚠️ Adjustment note: Inference is moved up from the original Week 8 to Week 6.**
+> Reason: Understanding generation (temperature, top-k, KV cache) is a prerequisite for understanding SFT experiment results. It should not be placed after alignment.
 
-## 目标
+## Goal
 
-理解 LLM 推理为什么贵，以及 decoding 策略如何影响输出质量。
+Understand why LLM inference is expensive and how decoding strategies affect output quality.
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS336 Lecture 10：Inference**
-2. **CS324：Selective architectures**（了解 SSM 背景）
-3. **CS25：On the Tradeoffs of State Space Models and Transformers**
+1. **CS336 Lecture 10: Inference**
+2. **CS324: Selective architectures** (understand SSM background)
+3. **CS25: On the Tradeoffs of State Space Models and Transformers**
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
 1. **FlashAttention**
    - Abstract + Introduction
-   - IO-aware attention 的核心想法（tiling，不是完整数学证明）
+   - Core idea of IO-aware attention (tiling, not the full mathematical proof)
 
 2. **vLLM / PagedAttention**
    - Abstract + Introduction
-   - KV cache 碎片化问题
+   - KV cache fragmentation problem
 
-略读：
+Skim:
 
 1. **Mamba**
    - Abstract + Introduction
-   - 为什么它是 Transformer alternative
+   - Why it is a Transformer alternative
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-在 `tiny-gpt-from-scratch/generate.py` 实现四种解码策略：
+Implement four decoding strategies in `tiny-gpt-from-scratch/generate.py`:
 
 ```python
 def greedy_decode(model, prompt, max_new_tokens): ...
@@ -565,7 +565,7 @@ def top_k_sample(model, prompt, k): ...
 def top_p_sample(model, prompt, p): ...  # nucleus sampling
 ```
 
-实验：同一个 prompt `"Once upon a time"`，对比：
+Experiment: use the same prompt `"Once upon a time"` and compare:
 
 ```
 temperature = 0.3 / 0.8 / 1.2
@@ -573,62 +573,62 @@ top_k = 10 / 50
 top_p = 0.9 / 0.95
 ```
 
-进阶：实现简化 KV cache：
+Advanced: implement a simplified KV cache:
 
 ```python
-# 没有 cache：每次重算整个 prefix
-# 有 cache：只算新 token 的 K/V，past_kv 累积
+# Without cache: recompute the entire prefix every time
+# With cache: only compute K/V for the new token; past_kv accumulates
 ```
 
-## Step 4：总结
+## Step 4: Summary
 
-写 `08_Inference.md`，回答：
+Write `08_Inference.md`, and answer:
 
 ```
-1. greedy decoding 为什么容易出现重复和无聊？
-2. temperature 控制什么？为什么 > 1 会乱，< 0.3 会重复？
-3. top-k 和 top-p 的区别和各自适用场景？
-4. KV cache 为什么能加速？它节省了什么计算？
-5. inference bottleneck 和 training bottleneck 有何本质不同？
+1. Why does greedy decoding easily become repetitive and boring?
+2. What does temperature control? Why does > 1 become chaotic and < 0.3 become repetitive?
+3. What is the difference between top-k and top-p, and what scenarios are they suitable for?
+4. Why can KV cache speed things up? What computation does it save?
+5. What is the fundamental difference between the inference bottleneck and the training bottleneck?
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能解释 KV cache 的原理，并演示不同 decoding 策略对生成结果的影响？
+> Can I explain the principle of KV cache and demonstrate how different decoding strategies affect generation results?
 
 ---
 
-# Week 7：Scaling Laws
+# Week 7: Scaling Laws
 
-## 目标
+## Goal
 
-理解为什么"大模型 + 大数据 + 大算力"有效，以及 Chinchilla 为什么重新定义了训练范式。
+Understand why "large models + large data + large compute" works, and why Chinchilla redefined the training paradigm.
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-三个来源，各有侧重，不是重复内容：
+Three sources, each with a different emphasis. They are not repetitive:
 
-1. **CS336 Lecture 9：Scaling laws**（侧重 Kaplan empirical scaling，模型大小 vs. loss 的幂律关系）
-2. **CS336 Lecture 11：Scaling laws**（侧重 Chinchilla compute-optimal，给定算力如何分配模型和数据）
-3. **CS324：Scaling laws**（理论视角 + 实际训练决策的影响）
+1. **CS336 Lecture 9: Scaling laws** (focus on Kaplan empirical scaling, the power-law relationship between model size and loss)
+2. **CS336 Lecture 11: Scaling laws** (focus on Chinchilla compute-optimal training, how to allocate model size and data given compute)
+3. **CS324: Scaling laws** (theoretical perspective + impact on practical training decisions)
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
-1. **Scaling Laws for Neural Language Models**（Kaplan et al.）
+1. **Scaling Laws for Neural Language Models** (Kaplan et al.)
    - Abstract + Introduction
-   - scaling law 公式
-   - compute / data / model size 三角关系图
+   - scaling law formula
+   - compute / data / model size triangle diagram
 
-2. **Training Compute-Optimal Large Language Models**（Chinchilla）
+2. **Training Compute-Optimal Large Language Models** (Chinchilla)
    - Abstract + Introduction
-   - Figure 1（Chinchilla vs GPT-3 vs Gopher 的对比）
-   - 结论：给定 compute，模型大小和 token 数如何平衡
+   - Figure 1 (comparison of Chinchilla vs GPT-3 vs Gopher)
+   - Conclusion: how to balance model size and token count under fixed compute
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-Mini scaling experiment。训练 3 个模型，在同一数据集上对比：
+Mini scaling experiment. Train 3 models and compare them on the same dataset:
 
 ```python
 configs = {
@@ -638,141 +638,141 @@ configs = {
 }
 ```
 
-记录并画图：
+Record and plot:
 
 ```
 x-axis: log(parameter count)
 y-axis: validation loss
 ```
 
-如果算力不够，只跑 small / medium。
+If compute is insufficient, only run small / medium.
 
-## Step 4：总结
+## Step 4: Summary
 
-写 `04_Scaling_Laws.md`，回答：
+Write `04_Scaling_Laws.md`, and answer:
 
 ```
-1. scaling law 试图预测什么？
-2. 参数量、数据量、算力三者是什么关系？
-3. Chinchilla 为什么说很多模型"训练 token 不够"？
-4. LLaMA 系列为什么能用小模型打败大模型？
-5. 对个人学习者，scaling law 告诉了我们什么？
+1. What do scaling laws try to predict?
+2. What is the relationship among parameter count, data volume, and compute?
+3. Why did Chinchilla say many models were "undertrained on tokens"?
+4. Why could the LLaMA series use smaller models to beat larger models?
+5. What do scaling laws tell individual learners?
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能解释 Chinchilla 的核心结论，并说明它对 LLaMA 的影响？
+> Can I explain Chinchilla’s core conclusion and describe its impact on LLaMA?
 
 ---
 
-# Week 8：Data-Centric LLM
+# Week 8: Data-Centric LLM
 
-## 目标
+## Goal
 
-把 Data Science 背景用起来。理解数据质量是 LLM 效果的天花板。
+Use your Data Science background. Understand that data quality is the ceiling of LLM performance.
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS336 Lecture 13：Data, sources, datasets**
-2. **CS336 Lecture 14：Data filtering, deduplication, mixing, synthetic data**
-3. **CS324：Data**
+1. **CS336 Lecture 13: Data, sources, datasets**
+2. **CS336 Lecture 14: Data filtering, deduplication, mixing, synthetic data**
+3. **CS324: Data**
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
-1. **LLaMA**（Meta，2023）
-   - Data 部分（数据来源 + 过滤策略）
-   - Training 部分
+1. **LLaMA** (Meta, 2023)
+   - Data section (data sources + filtering strategies)
+   - Training section
 
-略读：
+Skim:
 
-1. **The Pile**（了解 pretraining data 构成）
-2. **FineWeb / RefinedWeb 技术报告**（现代 CC 数据清洗范式）
-3. **LLaMA 2**（Pretraining Data 部分）
+1. **The Pile** (understand the composition of pretraining data)
+2. **FineWeb / RefinedWeb technical reports** (modern Common Crawl data cleaning paradigm)
+3. **LLaMA 2** (Pretraining Data section)
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-新建项目 `data-quality-for-language-modeling/`，构造两个数据集：
+Create a new project `data-quality-for-language-modeling/`, and construct two datasets:
 
 ```
-clean_dataset:   高质量 story / wiki / 课程文本
-dirty_dataset:   重复文本 + 垃圾符号 + HTML 残留 + 随机拼接
+clean_dataset:   high-quality story / wiki / course text
+dirty_dataset:   repeated text + garbage symbols + HTML remnants + random concatenation
 ```
 
-用同一个 tiny GPT 配置训练三次：
+Train three times with the same tiny GPT configuration:
 
 ```
 A: clean dataset
 B: dirty dataset
-C: deduplicated dirty dataset（从 B 去重后）
+C: deduplicated dirty dataset (deduplicate B first)
 ```
 
-比较：valid loss / 生成样例 / 重复率 / 乱码率
+Compare: valid loss / generated samples / repetition rate / garbled-text rate
 
-这个项目复用 `tiny-gpt-from-scratch/train.py`，数据集替换即可。
+This project reuses `tiny-gpt-from-scratch/train.py`; just replace the dataset.
 
-## Step 4：总结
+## Step 4: Summary
 
-写：
+Write:
 
 ```
 05_Data.md
 Projects/data-quality-for-language-modeling.md
 ```
 
-回答：
+Answer:
 
 ```
-1. 数据质量如何直接影响 validation loss？
-2. 重复数据会造成什么具体问题（举 GPT-2 memorization 例子）？
-3. deduplication 为什么是 pretraining 的标配？
-4. synthetic data 的风险是什么（model collapse）？
-5. Data Science 背景在 LLM 工程里有哪些实际用武之地？
+1. How does data quality directly affect validation loss?
+2. What specific problems does duplicated data cause? Give the GPT-2 memorization example.
+3. Why is deduplication standard in pretraining?
+4. What is the risk of synthetic data (model collapse)?
+5. What practical uses does a Data Science background have in LLM engineering?
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能用实验数据证明数据质量影响 loss，并说明 deduplication 的必要性？
+> Can I use experimental data to prove that data quality affects loss and explain the necessity of deduplication?
 
 ---
 
-# Week 9：PEFT / LoRA / QLoRA
+# Week 9: PEFT / LoRA / QLoRA
 
-> **⚠️ 新增独立章节。**
-> 原路线把 LoRA 压缩在 SFT 代码任务里一笔带过。对 AI engineering 目标而言，这是必须独立掌握的核心技能。
+> **⚠️ Newly added independent chapter.**
+> The original route compressed LoRA into one sentence inside the SFT code task. For an AI engineering goal, this is a core skill that must be mastered independently.
 
-## 目标
+## Goal
 
-理解 LoRA 的数学原理，能独立跑完 LoRA fine-tuning 全流程，理解 QLoRA 的量化机制。
+Understand the mathematical principle of LoRA, independently run the full LoRA fine-tuning process, and understand QLoRA’s quantization mechanism.
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS336 Lecture 15：Mid/post-training, SFT/RLHF**（只看 adaptation 相关部分）
-2. **CS324：Adaptation**（完整看）
-3. Hugging Face PEFT 文档：[huggingface.co/docs/peft](https://huggingface.co/docs/peft)
+1. **CS336 Lecture 15: Mid/post-training, SFT/RLHF** (only watch the adaptation-related part)
+2. **CS324: Adaptation** (watch in full)
+3. Hugging Face PEFT documentation: [huggingface.co/docs/peft](https://huggingface.co/docs/peft)
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
 1. **LoRA: Low-Rank Adaptation of Large Language Models**
    - Abstract + Introduction
-   - Section 4：LoRA 方法（$W = W_0 + \Delta W = W_0 + BA$）
-   - Section 7：实验结果
+   - Section 4: LoRA method ($W = W_0 + \Delta W = W_0 + BA$)
+   - Section 7: experimental results
 
-精读：
+Read closely:
 
 2. **QLoRA: Efficient Finetuning of Quantized LLMs**
    - Abstract + Introduction
-   - 4-bit NormalFloat 量化的直觉
-   - 和 LoRA 的组合方式
+   - Intuition behind 4-bit NormalFloat quantization
+   - How it combines with LoRA
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-新建子目录 `tiny-gpt-from-scratch/peft-experiments/`：
+Create a new subdirectory `tiny-gpt-from-scratch/peft-experiments/`:
 
-**实验 1：手动实现 LoRA 层**
+**Experiment 1: manually implement a LoRA layer**
 
 ```python
 class LoRALinear(nn.Module):
@@ -787,7 +787,7 @@ class LoRALinear(nn.Module):
         return self.linear(x) + (x @ self.lora_A @ self.lora_B) * self.scale
 ```
 
-**实验 2：用 `peft` 库对小模型做 LoRA SFT**
+**Experiment 2: use the `peft` library to perform LoRA SFT on a small model**
 
 ```python
 from peft import LoraConfig, get_peft_model
@@ -797,76 +797,76 @@ model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-0.5B")
 config = LoraConfig(r=8, lora_alpha=16, target_modules=["q_proj", "v_proj"])
 model = get_peft_model(model, config)
 model.print_trainable_parameters()
-# 对比：full FT 参数量 vs. LoRA 参数量
+# Compare: full FT parameter count vs. LoRA parameter count
 ```
 
-数据：Alpaca-style 小样本（1k–5k 条）  
-平台：Mac M3 Pro 可跑 0.5B；大模型用 Colab / Kaggle
+Data: small Alpaca-style sample (1k–5k examples)  
+Platform: Mac M3 Pro can run 0.5B; use Colab / Kaggle for larger models
 
-对比：
+Compare:
 
 ```
-base model output（同一 prompt）
+base model output (same prompt)
 LoRA SFT output
-full FT output（如果算力允许）
+full FT output (if compute allows)
 ```
 
-## Step 4：总结
+## Step 4: Summary
 
-写 `06_PEFT_SFT.md`，回答：
+Write `06_PEFT_SFT.md`, and answer:
 
 ```
-1. LoRA 的低秩分解是什么意思？为什么有效？
-2. rank 和 alpha 如何影响训练效果？
-3. 为什么 LoRA 比 full fine-tuning 省显存？（参数量对比）
-4. QLoRA 在 LoRA 基础上做了什么额外工作？
-5. 哪些层应该加 LoRA？（q_proj, v_proj 为什么是首选）
+1. What does low-rank decomposition in LoRA mean? Why does it work?
+2. How do rank and alpha affect training results?
+3. Why does LoRA save VRAM compared with full fine-tuning? (parameter count comparison)
+4. What extra work does QLoRA do on top of LoRA?
+5. Which layers should LoRA be applied to? (Why are q_proj and v_proj the first choices?)
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能手写 LoRA 层，解释低秩分解原理，并跑完一个完整的 LoRA SFT 实验？
+> Can I hand-write a LoRA layer, explain the principle of low-rank decomposition, and complete a full LoRA SFT experiment?
 
 ---
 
-# Week 10：Instruction Tuning / SFT 全流程
+# Week 10: Instruction Tuning / Full SFT Pipeline
 
-## 目标
+## Goal
 
-理解 base model 为什么不是 chat model，掌握 chat template 和 instruction dataset 的工程细节。
+Understand why a base model is not a chat model, and master the engineering details of chat templates and instruction datasets.
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS336 Lecture 15：Mid/post-training, SFT/RLHF**（完整看）
-2. **CS324：Adaptation**（回看，结合代码理解）
+1. **CS336 Lecture 15: Mid/post-training, SFT/RLHF** (watch in full)
+2. **CS324: Adaptation** (rewatch and connect it with the code)
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
 1. **InstructGPT: Training Language Models to Follow Instructions with Human Feedback**
    - Abstract + Introduction
-   - SFT 部分（数据格式、训练细节）
-   - RLHF 部分先读概念，不需要深挖 PPO
+   - SFT section (data format, training details)
+   - Read the RLHF section conceptually first; no need to go deep into PPO yet
 
-略读：
+Skim:
 
 1. **Self-Instruct**
-2. **Alpaca**（了解 self-instruct 的实际应用）
+2. **Alpaca** (understand the practical use of self-instruct)
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-在 Week 9 的 LoRA SFT 基础上，扩展到完整 SFT pipeline：
+Based on the LoRA SFT from Week 9, expand it into a complete SFT pipeline:
 
 ```
 sft-experiments/
-  prepare_data.py    ← 格式化 instruction dataset
-  train_sft.py       ← LoRA SFT 训练
-  inference.py       ← 对比 base / sft 输出
+  prepare_data.py    ← format instruction dataset
+  train_sft.py       ← LoRA SFT training
+  inference.py       ← compare base / sft outputs
   README.md
 ```
 
-chat template 示例：
+Chat template example:
 
 ```python
 # Qwen2.5 chat template
@@ -877,68 +877,68 @@ messages = [
 text = tokenizer.apply_chat_template(messages, tokenize=False)
 ```
 
-必须做的对比实验：
+Required comparison experiment:
 
 ```
-同一个 prompt，base model vs. SFT model，记录：
-- 指令遵循程度
-- 格式规范性
-- 幻觉率（主观判断）
+Same prompt, base model vs. SFT model. Record:
+- instruction-following ability
+- format regularity
+- hallucination rate (subjective judgment)
 ```
 
-## Step 4：总结
+## Step 4: Summary
 
-补充 `06_PEFT_SFT.md`，回答：
+Expand `06_PEFT_SFT.md`, and answer:
 
 ```
-1. base model 和 instruct model 的本质差异是什么？
-2. instruction dataset 长什么样？（prompt / response 对）
-3. chat template 是什么？为什么不同模型格式不同？
-4. SFT 为什么不能完全解决 alignment？
-5. SFT 数据质量 vs. 数量，哪个更重要？
+1. What is the essential difference between a base model and an instruct model?
+2. What does an instruction dataset look like? (prompt / response pair)
+3. What is a chat template? Why do different models use different formats?
+4. Why can’t SFT fully solve alignment?
+5. Which matters more for SFT data: quality or quantity?
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能解释 base model 和 instruct model 的差异，并展示 SFT 前后的输出对比？
+> Can I explain the difference between a base model and an instruct model, and show output comparisons before and after SFT?
 
 ---
 
-# Week 11：RLHF / DPO / Reasoning RL
+# Week 11: RLHF / DPO / Reasoning RL
 
-## 目标
+## Goal
 
-理解现代 LLM 对齐的主线，以及为什么 DPO 正在取代传统 RLHF。
+Understand the main line of modern LLM alignment, and why DPO is replacing traditional RLHF.
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS336 Lecture 15：Mid/post-training, SFT/RLHF**
-2. **CS336 Lecture 16：Post-training - RLVR**
-3. **CS336 Assignment 5：Alignment and Reasoning RL**（读 handout，了解任务设计）
+1. **CS336 Lecture 15: Mid/post-training, SFT/RLHF**
+2. **CS336 Lecture 16: Post-training - RLVR**
+3. **CS336 Assignment 5: Alignment and Reasoning RL** (read the handout and understand the task design)
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
 1. **InstructGPT**
-   - RLHF 三阶段（SFT → RM → PPO）
-   - reward model 的训练方式
-   - PPO 在语言模型里的变体
+   - The three stages of RLHF (SFT → RM → PPO)
+   - How the reward model is trained
+   - PPO variants in language models
 
 2. **Direct Preference Optimization: Your Language Model is Secretly a Reward Model**
    - Abstract + Introduction
-   - DPO 相比 RLHF 简化在哪里（消掉了显式 reward model）
+   - How DPO simplifies RLHF (removes the explicit reward model)
 
-略读：
+Skim:
 
-1. **Constitutional AI**（Anthropic）
-2. **GRPO / DeepSeek-R1 技术报告**（了解 reasoning RL 现状）
+1. **Constitutional AI** (Anthropic)
+2. **GRPO / DeepSeek-R1 technical report** (understand the current state of reasoning RL)
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-**选择 A（推荐）：DPO toy experiment**
+**Option A (recommended): DPO toy experiment**
 
-构造 preference dataset：
+Construct a preference dataset:
 
 ```json
 {
@@ -948,7 +948,7 @@ text = tokenizer.apply_chat_template(messages, tokenize=False)
 }
 ```
 
-用 `trl` 跑 DPO：
+Run DPO with `trl`:
 
 ```python
 from trl import DPOTrainer, DPOConfig
@@ -956,78 +956,78 @@ trainer = DPOTrainer(model=model, args=config, train_dataset=dataset)
 trainer.train()
 ```
 
-**选择 B：只做 preference data 分析**
+**Option B: only analyze preference data**
 
-如果算力不够，至少完成：
-
-```
-- preference dataset 格式解析
-- chosen / rejected 长度分布对比
-- reward hacking 案例举例
-- 手画 RLHF vs. DPO 流程图
-```
-
-## Step 4：总结
-
-写 `07_Alignment.md`，回答：
+If compute is insufficient, at least complete:
 
 ```
-1. RLHF 三阶段分别做什么？
-2. reward model 学的是什么？
-3. PPO 在语言模型里解决什么问题？
-4. DPO 为什么更简单？它的假设是什么？
-5. RLHF / DPO 可能引入什么新问题（reward hacking、分布偏移）？
+- parse preference dataset format
+- compare chosen / rejected length distributions
+- give examples of reward hacking
+- draw the RLHF vs. DPO flowchart by hand
 ```
 
-## 验收标准
+## Step 4: Summary
 
-> 我能不能画出 SFT / RLHF / DPO 完整流程图，并解释三者的关系？
+Write `07_Alignment.md`, and answer:
+
+```
+1. What do the three stages of RLHF do respectively?
+2. What does the reward model learn?
+3. What problem does PPO solve in language models?
+4. Why is DPO simpler? What assumption does it make?
+5. What new problems might RLHF / DPO introduce? (reward hacking, distribution shift)
+```
+
+## Acceptance Standard
+
+> Can I draw the full SFT / RLHF / DPO flowchart and explain their relationship?
 
 ---
 
-# Week 12：RAG / 上下文检索
+# Week 12: RAG / Context Retrieval
 
-## 目标
+## Goal
 
-做一个实用项目，理解"参数记忆"和"上下文检索"的本质区别。
+Build a practical project and understand the essential difference between "parametric memory" and "context retrieval."
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS25：Distinct Modes of Generalization from Parameters and Context**
-2. **CS324：Adaptation**（retrieval 相关部分）
-3. **CS336 Lecture 12：Evaluation**（先看 task evaluation 部分）
+1. **CS25: Distinct Modes of Generalization from Parameters and Context**
+2. **CS324: Adaptation** (retrieval-related section)
+3. **CS336 Lecture 12: Evaluation** (first watch the task evaluation section)
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
-1. **Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks**（RAG 原论文）
+1. **Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks** (original RAG paper)
    - Abstract + Introduction
-   - Method：dense retrieval + generator 结构
+   - Method: dense retrieval + generator structure
 
 2. **ReAct: Synergizing Reasoning and Acting in Language Models**
    - Abstract + Introduction
-   - reasoning + acting 的输出格式
+   - reasoning + acting output format
 
-略读：
+Skim:
 
 1. **Self-RAG**
-2. **HyDE（Hypothetical Document Embeddings）**
+2. **HyDE (Hypothetical Document Embeddings)**
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-新建项目 `paper-rag-assistant/`：
+Create a new project `paper-rag-assistant/`:
 
 ```
 paper-rag-assistant/
-  ingest.py       ← 读 PDF，chunk，embedding，存入向量库
-  retrieval.py    ← 查询，返回 top-k chunks
-  generate.py     ← 拼 prompt，调 API，输出答案 + 来源
-  evaluate.py     ← 评估 retrieval precision 和 answer quality
+  ingest.py       ← read PDF, chunk, embed, store in vector database
+  retrieval.py    ← query and return top-k chunks
+  generate.py     ← assemble prompt, call API, output answer + sources
+  evaluate.py     ← evaluate retrieval precision and answer quality
   README.md
 ```
 
-技术选型：
+Technical choices:
 
 ```python
 # embedding
@@ -1038,76 +1038,76 @@ model = SentenceTransformer('BAAI/bge-small-en-v1.5')
 import chromadb
 
 # generation
-import anthropic  # 或 openai
+import anthropic  # or openai
 ```
 
-数据源：你已经读过的 LLM 论文 PDF
+Data source: LLM paper PDFs you have already read
 
-实验：对比三种 chunk size 的效果：
+Experiment: compare the effects of three chunk sizes:
 
 ```
 300 tokens / 600 tokens / 1000 tokens
 ```
 
-记录：retrieval precision / answer quality / 引用是否准确
+Record: retrieval precision / answer quality / whether citations are accurate
 
-## Step 4：总结
+## Step 4: Summary
 
-写：
+Write:
 
 ```
 09_RAG.md
 Projects/paper-rag-assistant.md
 ```
 
-回答：
+Answer:
 
 ```
-1. RAG 解决什么问题？为什么不直接 fine-tune？
-2. chunk size 为什么重要？太大和太小各有什么问题？
-3. dense retrieval 和 keyword search 的本质区别？
-4. 为什么有了 RAG 还会 hallucination？
-5. RAG 和 fine-tuning 各自适合什么场景？
+1. What problem does RAG solve? Why not directly fine-tune?
+2. Why does chunk size matter? What are the problems when it is too large or too small?
+3. What is the essential difference between dense retrieval and keyword search?
+4. Why can hallucination still happen with RAG?
+5. What scenarios are RAG and fine-tuning each suitable for?
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能做一个能输出答案 + 引用来源的 RAG，并解释 chunk size 对结果的影响？
+> Can I build a RAG system that outputs answers + cited sources, and explain how chunk size affects results?
 
 ---
 
-# Week 13：Agent / Tool Use
+# Week 13: Agent / Tool Use
 
-> **⚠️ 新增章节。**
-> 原路线 RAG 之后没有 Agent，但 Agent 是 2025–2026 AI engineering 岗位的高频考点。
+> **⚠️ Newly added chapter.**
+> The original route had no Agent section after RAG, but Agent is a frequent topic for 2025–2026 AI engineering roles.
 
-## 目标
+## Goal
 
-在 RAG 基础上加一层 Agent 能力：模型自己决定何时检索、何时调用工具。
+Add an Agent layer on top of RAG: the model decides when to retrieve and when to call tools.
 
-## Step 1：看课 / 读文档
+## Step 1: Watch Lectures / Read Documentation
 
-1. **CS25：任何 agent / tool use 相关讲座**
-2. Anthropic Tool Use 文档：[docs.anthropic.com/tool-use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use)
-3. LangGraph 文档（如果你计划用框架）：[langchain-ai.github.io/langgraph](https://langchain-ai.github.io/langgraph/)
+1. **CS25: any lecture related to agent / tool use**
+2. Anthropic Tool Use documentation: [docs.anthropic.com/tool-use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use)
+3. LangGraph documentation (if you plan to use a framework): [langchain-ai.github.io/langgraph](https://langchain-ai.github.io/langgraph/)
 
-## Step 2：读论文
+## Step 2: Read Papers
 
-精读：
+Read closely:
 
-1. **ReAct**（第二遍，这次重点看代码实现格式）
+1. **ReAct** (second pass, this time focus on the code implementation format)
 
-略读：
+Skim:
 
 1. **Toolformer**
-2. **HuggingGPT / HuggingFace Agents**（了解 multi-tool 场景）
+2. **HuggingGPT / HuggingFace Agents** (understand multi-tool scenarios)
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-在 `paper-rag-assistant/` 里加一层 Agent：
+Add an Agent layer inside `paper-rag-assistant/`:
 
 ```python
-# 手写简单 ReAct loop（不依赖框架）
+# Hand-write a simple ReAct loop (do not rely on a framework)
 def react_loop(user_query, max_steps=5):
     messages = [{"role": "user", "content": user_query}]
     for step in range(max_steps):
@@ -1116,93 +1116,93 @@ def react_loop(user_query, max_steps=5):
             tool_result = execute_tool(response.tool_call)
             messages.append({"role": "tool", "content": tool_result})
         else:
-            return response.text  # 最终答案
+            return response.text  # final answer
 ```
 
-实现两个工具：
+Implement two tools:
 
 ```
-search_tool    ← 调用你的 RAG retrieval
-calculator_tool ← 简单的数学计算
+search_tool    ← call your RAG retrieval
+calculator_tool ← simple mathematical calculation
 ```
 
-场景测试：
+Scenario test:
 
 ```
-"FlashAttention 的作者是谁，他现在在哪里工作？"
-→ Agent 应该先 search_tool，再用 retrieval 结合回答
+"Who is the author of FlashAttention, and where does he work now?"
+→ The Agent should first use search_tool, then answer using retrieval.
 ```
 
-## Step 4：总结
+## Step 4: Summary
 
-写 `10_Agent.md`，回答：
+Write `10_Agent.md`, and answer:
 
 ```
-1. ReAct 的 Reason + Act 循环是什么？
-2. function calling 和 prompt engineering 有什么区别？
-3. tool use 和 RAG 如何配合？
-4. agent loop 什么时候会死循环？如何防止？
-5. 单 agent vs. multi-agent，各自适合什么场景？
+1. What is ReAct’s Reason + Act loop?
+2. What is the difference between function calling and prompt engineering?
+3. How do tool use and RAG work together?
+4. When will an agent loop get stuck in an infinite loop? How can it be prevented?
+5. Single-agent vs. multi-agent: what scenarios are they each suitable for?
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我能不能手写一个 ReAct 循环，让模型自己决定是否调用 search 工具？
+> Can I hand-write a ReAct loop that lets the model decide whether to call a search tool?
 
 ---
 
-# Week 14：Evaluation + 部署 + 项目整理
+# Week 14: Evaluation + Deployment + Project Cleanup
 
-## 目标
+## Goal
 
-从"我学过"变成"我有成果可以展示"。**加入 LLM-as-judge 和本地部署实践。**
+Move from "I have studied it" to "I have results I can show." **Add LLM-as-judge and local deployment practice.**
 
-## Step 1：看课
+## Step 1: Watch Lectures
 
-1. **CS336 Lecture 12：Evaluation**
-2. **CS324：Capabilities**
-3. **CS324：Harms I / Harms II**（bias、safety 部分）
+1. **CS336 Lecture 12: Evaluation**
+2. **CS324: Capabilities**
+3. **CS324: Harms I / Harms II** (bias and safety sections)
 
-## Step 2：读论文 / benchmark
+## Step 2: Read Papers / Benchmarks
 
-精读：
+Read closely:
 
-1. **HELM**（evaluation framework）
+1. **HELM** (evaluation framework)
    - accuracy / calibration / robustness / fairness / efficiency
 
 2. **MMLU**
-   - benchmark 构造原理
-   - 为什么它不等于真正的智能
+   - benchmark construction principle
+   - why it is not equivalent to true intelligence
 
-略读：
+Skim:
 
 1. **GSM8K**
 2. **HumanEval**
-3. **MT-Bench / AlpacaEval**（了解 LLM-as-judge 范式）
+3. **MT-Bench / AlpacaEval** (understand the LLM-as-judge paradigm)
 
-## Step 3：代码任务
+## Step 3: Code Task
 
-**Part 1：自定义 benchmark**
+**Part 1: custom benchmark**
 
-测试对象：
+Test targets:
 
 ```
-1. 你的 tiny GPT
-2. 一个 base small model（Qwen2.5-0.5B base）
-3. 一个 instruct small model（Qwen2.5-0.5B instruct）
+1. your tiny GPT
+2. a base small model (Qwen2.5-0.5B base)
+3. an instruct small model (Qwen2.5-0.5B instruct)
 4. Claude / GPT API
 ```
 
-测试集（20 个问题）：
+Test set (20 questions):
 
 ```
-5 个 CS 概念
-5 个数学推理
-5 个代码生成
-5 个 RAG 问答（用你的 paper-rag-assistant）
+5 CS concepts
+5 mathematical reasoning
+5 code generation
+5 RAG Q&A (using your paper-rag-assistant)
 ```
 
-**Part 2：LLM-as-judge（新增）**
+**Part 2: LLM-as-judge (new)**
 
 ```python
 def llm_judge(question, answer, reference=None):
@@ -1215,28 +1215,28 @@ def llm_judge(question, answer, reference=None):
     return claude_api(prompt)
 ```
 
-**Part 3：本地部署实践（新增）**
+**Part 3: local deployment practice (new)**
 
-用 Ollama 在本地跑一个小模型：
+Run a small model locally with Ollama:
 
 ```bash
-# 安装 Ollama
+# Install Ollama
 curl https://ollama.ai/install.sh | sh
 
-# 拉取并运行
+# Pull and run
 ollama run qwen2.5:0.5b
 ollama run llama3.2:1b
 
-# Python 调用
+# Python call
 import ollama
 response = ollama.chat(model='qwen2.5:0.5b', messages=[...])
 ```
 
-理解：vLLM / Ollama / HuggingFace TGI 的区别，以及什么场景用哪个。
+Understand the differences among vLLM / Ollama / HuggingFace TGI, and which scenario each is suitable for.
 
-## Step 4：最终整理
+## Step 4: Final Cleanup
 
-整理三个 README（每个都要完整）：
+Clean up three READMEs (each must be complete):
 
 ```
 tiny-gpt-from-scratch/README.md
@@ -1244,34 +1244,34 @@ data-quality-for-language-modeling/README.md
 paper-rag-assistant/README.md
 ```
 
-每个 README 必须包括：
+Each README must include:
 
 ```
-1. Problem（解决什么问题）
-2. Method（方法说明）
-3. Implementation（关键实现细节）
-4. Experiments（实验设置）
-5. Results（结果 + 图表）
-6. Failure cases（哪里没做好）
+1. Problem (what problem it solves)
+2. Method (method description)
+3. Implementation (key implementation details)
+4. Experiments (experiment setup)
+5. Results (results + charts)
+6. Failure cases (what did not work well)
 7. What I learned
 8. Future work
 ```
 
-## 验收标准
+## Acceptance Standard
 
-> 我有没有 3 个可展示的 GitHub 项目，能用 LLM-as-judge 评估模型输出，并在本地跑通一个模型？
+> Do I have 3 presentable GitHub projects, can I evaluate model outputs with LLM-as-judge, and can I run a model locally?
 
 ---
 
-# 论文精读优先级
+# Paper Close-Reading Priority
 
-## 必须精读（按顺序）
+## Must Read Closely (in order)
 
 ```
 1. Attention Is All You Need
 2. GPT-2
 3. GPT-3
-4. Scaling Laws for Neural Language Models（Kaplan）
+4. Scaling Laws for Neural Language Models (Kaplan)
 5. Chinchilla
 6. FlashAttention
 7. LLaMA
@@ -1279,11 +1279,11 @@ paper-rag-assistant/README.md
 9. QLoRA
 10. InstructGPT
 11. DPO
-12. RAG（Lewis et al.）
+12. RAG (Lewis et al.)
 13. ReAct
 ```
 
-## 可以略读
+## Can Skim
 
 ```
 1. BERT
@@ -1303,83 +1303,83 @@ paper-rag-assistant/README.md
 
 ---
 
-# 每周验收标准（完整版）
+# Weekly Acceptance Standards (Full Version)
 
-| 周   | 验收问题                                                     |
+| Week | Acceptance question |
 | ---- | ------------------------------------------------------------ |
-| W1   | 能不能手画 Transformer pipeline（token → embedding → attention → logits）？ |
-| W2   | 能不能解释 Q/K/V 的 shape，说清楚 multi-head attention 的拼接逻辑？ |
-| W3   | 能不能自己实现简化 BPE，解释中文 token 效率问题？           |
-| W4   | 能不能训练 tiny GPT 并生成文本，解释 loss curve？           |
-| W5   | tiny-gpt-from-scratch repo 是否有完整 README，别人能直接跑？ |
-| W6   | 能不能解释 KV cache 原理，演示不同 decoding 策略的效果？    |
-| W7   | 能不能解释 Chinchilla 核心结论，说明它对 LLaMA 的影响？     |
-| W8   | 能不能用实验数据证明数据质量影响 loss？                     |
-| W9   | 能不能手写 LoRA 层，解释低秩分解原理，跑完 LoRA SFT 实验？  |
-| W10  | 能不能展示 SFT 前后的输出对比，解释 base vs instruct 的差异？ |
-| W11  | 能不能画出 SFT / RLHF / DPO 完整流程图，解释三者关系？      |
-| W12  | 能不能做一个有引用的 RAG，解释 chunk size 对结果的影响？     |
-| W13  | 能不能手写 ReAct 循环，让模型自己决定是否调用 search？       |
-| W14  | 有没有 3 个完整 GitHub 项目，会用 LLM-as-judge 评估？        |
+| W1   | Can I draw the Transformer pipeline by hand (token → embedding → attention → logits)? |
+| W2   | Can I explain the shapes of Q/K/V and clearly describe the concatenation logic of multi-head attention? |
+| W3   | Can I implement a simplified BPE and explain the Chinese token efficiency problem? |
+| W4   | Can I train a tiny GPT, generate text, and explain the loss curve? |
+| W5   | Does the tiny-gpt-from-scratch repo have a complete README that others can run directly? |
+| W6   | Can I explain the principle of KV cache and demonstrate the effects of different decoding strategies? |
+| W7   | Can I explain Chinchilla’s core conclusion and describe its impact on LLaMA? |
+| W8   | Can I use experimental data to prove that data quality affects loss? |
+| W9   | Can I hand-write a LoRA layer, explain the principle of low-rank decomposition, and complete a LoRA SFT experiment? |
+| W10  | Can I show output comparisons before and after SFT, and explain the difference between base and instruct models? |
+| W11  | Can I draw the full SFT / RLHF / DPO flowchart and explain their relationship? |
+| W12  | Can I build a RAG system with citations and explain how chunk size affects results? |
+| W13  | Can I hand-write a ReAct loop that lets the model decide whether to call search? |
+| W14  | Do I have 3 complete GitHub projects and know how to evaluate with LLM-as-judge? |
 
 ---
 
-# 学习路线全局图
+# Global Map of the Learning Route
 
 ```
-Week 0   环境 + Obsidian
+Week 0   Environment + Obsidian
   ↓
-Week 1   Transformer 直觉 + attention demo
+Week 1   Transformer intuition + attention demo
   ↓
-Week 2   Transformer Block 实现
+Week 2   Transformer Block implementation
   ↓
 Week 3   BPE Tokenizer
   ↓
-Week 4   tiny GPT 训练（nanoGPT 精读）
+Week 4   tiny GPT training (close reading of nanoGPT)
   ↓
-Week 5   代码整理 + CS336 标准化           → 项目 1 完成：tiny-gpt-from-scratch
+Week 5   Code cleanup + CS336 standardization           → Project 1 completed: tiny-gpt-from-scratch
   ↓
 Week 6   Inference / Decoding / KV Cache
   ↓
-Week 7   Scaling Laws（Kaplan + Chinchilla）
+Week 7   Scaling Laws (Kaplan + Chinchilla)
   ↓
-Week 8   Data-Centric LLM                 → 项目 2 完成：data-quality
+Week 8   Data-Centric LLM                 → Project 2 completed: data-quality
   ↓
-Week 9   PEFT / LoRA / QLoRA（独立章节）
+Week 9   PEFT / LoRA / QLoRA (independent chapter)
   ↓
-Week 10  SFT 全流程 + chat template
+Week 10  Full SFT pipeline + chat template
   ↓
 Week 11  RLHF / DPO / Reasoning RL
   ↓
-Week 12  RAG + 向量检索                   → 项目 3 完成：paper-rag-assistant
+Week 12  RAG + vector retrieval                   → Project 3 completed: paper-rag-assistant
   ↓
 Week 13  Agent / Tool Use / ReAct
   ↓
-Week 14  Evaluation + 本地部署 + 项目整理  → 3 个 GitHub 项目
+Week 14  Evaluation + local deployment + project cleanup  → 3 GitHub projects
 ```
 
 ---
 
-# 面向 AI Engineering 的额外提示
+# Additional Tips for AI Engineering
 
-以下是优先级建议：
+The following are priority recommendations:
 
-**最高优先（面试高频）**
-- LoRA / QLoRA 全链路（Week 9）
-- 本地推理部署：Ollama / vLLM（Week 14）
-- RAG pipeline 工程细节（Week 12）
-- Prompt engineering：few-shot、chain-of-thought、structured output
+**Highest priority (frequent in interviews)**
+- Full LoRA / QLoRA workflow (Week 9)
+- Local inference deployment: Ollama / vLLM (Week 14)
+- RAG pipeline engineering details (Week 12)
+- Prompt engineering: few-shot, chain-of-thought, structured output
 
-**中等优先（理解原理）**
-- Scaling Laws（Week 7）——理解就够，不需要自己跑大规模实验
-- RLHF / DPO（Week 11）——理解 pipeline，能解释概念
+**Medium priority (understanding principles)**
+- Scaling Laws (Week 7) — understanding is enough; no need to run large-scale experiments yourself
+- RLHF / DPO (Week 11) — understand the pipeline and be able to explain the concepts
 
-**了解即可（研究方向，不是工程方向）**
-- Data filtering 精细操作（Week 8 做了实验就够）
-- 从零实现 BPE（Week 3 做了就够，工作中用 tiktoken）
+**Understand only (research direction, not engineering direction)**
+- Fine-grained data filtering operations (the Week 8 experiment is enough)
+- Implementing BPE from scratch (Week 3 is enough; in real work, use tiktoken)
 
-**建议额外关注（路线未覆盖但实际工作常见）**
-- Structured output / JSON mode（Pydantic + instructor 库）
-- LangChain / LangGraph（工程框架，Week 13 后可选学）
-- 模型量化：GPTQ / AWQ / bitsandbytes
-- 成本优化：prompt caching、batch inference
+**Recommended extra focus (not covered in the route but common in real work)**
+- Structured output / JSON mode (Pydantic + instructor library)
+- LangChain / LangGraph (engineering frameworks, optional after Week 13)
+- Model quantization: GPTQ / AWQ / bitsandbytes
+- Cost optimization: prompt caching, batch inference
