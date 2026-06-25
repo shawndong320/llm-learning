@@ -35,7 +35,8 @@
               "title": "CS324-lecture-notes-prompt"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -108,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "00_Roadmap.md",
+                "file": "CS324-lecture-notes-prompt.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for 00_Roadmap"
+              "title": "Backlinks for CS324-lecture-notes-prompt"
             }
           },
           {
@@ -127,12 +128,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "00_Roadmap.md",
+                "file": "CS324-lecture-notes-prompt.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from 00_Roadmap"
+              "title": "Outgoing links from CS324-lecture-notes-prompt"
             }
           },
           {
@@ -170,13 +171,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "00_Roadmap.md",
+                "file": "CS324-lecture-notes-prompt.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of 00_Roadmap"
+              "title": "Outline of CS324-lecture-notes-prompt"
             }
           }
         ]
@@ -197,10 +198,10 @@
       "bases:Create new base": false
     }
   },
-  "active": "3e791c307e6404dc",
+  "active": "b4d1febdaa1a89f1",
   "lastOpenFiles": [
-    "CS324-lecture-notes-prompt.md",
     "00_Roadmap.md",
+    "CS324-lecture-notes-prompt.md",
     "01_Transformer.md"
   ]
 }
