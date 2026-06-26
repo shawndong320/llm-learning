@@ -73,10 +73,10 @@ A shorter notation is:
 ```math
 p(x_1,\dots,x_L)
 =
-\prod_{i=1}^{L} p(x_i \mid x_{<i})
+\prod_{i=1}^{L} p(x_i \mid x_{\lt i})
 ```
 
-where $x_{<i}$ means all tokens before position $i$.
+where $x_{\lt i}$ means all tokens before position $i$.
 
 ---
 
