@@ -177,11 +177,11 @@ This lecture explains how a general-purpose language model trained for **next-to
 
 A **language model** → assigns probabilities to token sequences, because language modeling can be framed as estimating how likely a sequence of tokens is.
 
-A **token sequence** → enables probabilistic modeling, because the model can decompose a long text into ordered units $$(x_1, x_2, \dots, x_L)$$.
+A **token sequence** → enables probabilistic modeling, because the model can decompose a long text into ordered units $(x_1, x_2, \dots, x_L)$.
 
 **Next-token prediction** → enables full sequence modeling, because the probability of a whole sequence can be factorized into conditional probabilities of each token given previous tokens.
 
-**Conditional next-token probabilities** → enable **sequence probability**, because multiplying (p(x_i \mid x_{1:i-1})) across all positions gives the probability of the entire sequence.
+**Conditional next-token probabilities** → enable **sequence probability**, because multiplying $(p(x_i \mid x_{1:i-1}))$ across all positions gives the probability of the entire sequence.
 
 **Sequence probability** → enables **perplexity**, because perplexity is computed from the average negative log-likelihood assigned to the true next tokens.
 
@@ -327,7 +327,7 @@ You understood the basic idea of **prompt engineering**: prompts are designed to
 
 ## What needs review
 
-You should review the distinction between **source language** and **source sentence**, and between **target language** and **target sentence**. In translation formulas, (x) and (y) usually refer to sequences or sentences, not the languages themselves.
+You should review the distinction between **source language** and **source sentence**, and between **target language** and **target sentence**. In translation formulas, $(x)$ and $(y)$ usually refer to sequences or sentences, not the languages themselves.
 
 You should review **closed-book QA vs open-book QA**. Closed-book QA does not mean “offline”; it means the model answers without retrieving external documents. Open-book QA does not necessarily mean “searching the internet”; it means using retrieved external evidence.
 

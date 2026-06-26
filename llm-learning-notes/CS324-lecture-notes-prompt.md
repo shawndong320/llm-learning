@@ -38,7 +38,7 @@
 不需要打分，但如果我在某个概念上反复出错，请明确告诉我，并建议我去补哪方面的基础（数学/ML/系统）。
 
 **第四步：学习笔记（整节课结束后生成一份）**
-当我们学完全部内容后，帮我生成一份英文学习笔记(markdown 格式)：
+当我们学完全部内容后，帮我生成一份英文学习笔记(markdown 格式，数学公式用 github markdown 数学公式格式)：
 
 - One-sentence summary of the entire lecture
 - Core concepts map：用"A → B，because..."或"A enables B by..."的句式，  描述核心概念之间的依赖、推导或因果关系，不要用 bullet points 罗列
