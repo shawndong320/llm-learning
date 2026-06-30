@@ -10,6 +10,7 @@ dependencies = [
     "datasets>=5.0.0",
     "einops>=0.8.2",
     "faiss-cpu>=1.14.3",
+    "graphviz>=0.21",
     "ipykernel>=7.3.0",
     "jupyter>=1.1.1",
     "matplotlib>=3.11.0",
