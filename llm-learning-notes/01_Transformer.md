@@ -50,9 +50,9 @@ Scale also increases risk, because more capable models can produce more convinci
 
 ### Sequence probability
 
-$$
+```math
 p(x_1,\dots,x_L)
-$$
+```
 
 This denotes the probability assigned to the entire token sequence. It is the basic mathematical object behind language modeling.
 
@@ -60,33 +60,33 @@ This denotes the probability assigned to the entire token sequence. It is the ba
 
 ### Autoregressive factorization
 
-$$
+```math
 p(x_1,\dots,x_L)
 =
 \prod_{i=1}^{L} p(x_i \mid x_1,\dots,x_{i-1})
-$$
+```
 
 This decomposes the probability of a full sequence into a product of next-token conditional probabilities. Here, $x_i$ is the $i$-th token, $x_1,\dots,x_{i-1}$ is the previous context, and $\prod$ is the product operator.
 
 A shorter notation is:
 
-$$
+```math
 p(x_1,\dots,x_L)
 =
-\prod_{i=1}^{L} p(x_i \mid x_{<i})
-$$
+\prod_{i=1}^{L} p(x_i \mid x_{\lt i})
+```
 
-where $x_{<i}$ means all tokens before position $i$.
+where $x_{\lt i}$ means all tokens before position $i$.
 
 ---
 
 ### N-gram approximation
 
-$$
+```math
 p(x_i \mid x_1,\dots,x_{i-1})
 \approx
 p(x_i \mid x_{i-n+1},\dots,x_{i-1})
-$$
+```
 
 An n-gram model approximates next-token prediction by only looking at the previous $n-1$ tokens. This makes it computationally simple but weak at long-range dependency modeling and generalization.
 
@@ -94,11 +94,11 @@ An n-gram model approximates next-token prediction by only looking at the previo
 
 ### Softmax
 
-$$
+```math
 \mathrm{softmax}(z_i)
 =
 \frac{e^{z_i}}{\sum_j e^{z_j}}
-$$
+```
 
 Softmax converts logits into a probability distribution over the vocabulary. Higher logits receive higher probabilities, and all probabilities sum to one.
 
@@ -106,11 +106,11 @@ Softmax converts logits into a probability distribution over the vocabulary. Hig
 
 ### Temperature-adjusted softmax
 
-$$
+```math
 \mathrm{softmax}\left(\frac{z_i}{T}\right)
 =
 \frac{e^{z_i/T}}{\sum_j e^{z_j/T}}
-$$
+```
 
 Temperature controls the sharpness of the probability distribution during generation. Lower $T$ makes the distribution sharper and more deterministic; higher $T$ makes it flatter and more random.
 
@@ -118,15 +118,15 @@ Temperature controls the sharpness of the probability distribution during genera
 
 ### Cross-entropy loss
 
-$$
+```math
 H(p,q) = -\sum_x p(x)\log q(x)
-$$
+```
 
 For one-hot labels in next-token prediction, this becomes:
 
-$$
+```math
 \mathrm{loss} = -\log q(x_{\text{true}})
-$$
+```
 
 Cross entropy penalizes the model when it assigns low probability to the true next token.
 
@@ -177,11 +177,11 @@ This lecture explains how a general-purpose language model trained for **next-to
 
 A **language model** → assigns probabilities to token sequences, because language modeling can be framed as estimating how likely a sequence of tokens is.
 
-A **token sequence** → enables probabilistic modeling, because the model can decompose a long text into ordered units $$(x_1, x_2, \dots, x_L)$$.
+A **token sequence** → enables probabilistic modeling, because the model can decompose a long text into ordered units $(x_1, x_2, \dots, x_L)$.
 
 **Next-token prediction** → enables full sequence modeling, because the probability of a whole sequence can be factorized into conditional probabilities of each token given previous tokens.
 
-**Conditional next-token probabilities** → enable **sequence probability**, because multiplying (p(x_i \mid x_{1:i-1})) across all positions gives the probability of the entire sequence.
+**Conditional next-token probabilities** → enable **sequence probability**, because multiplying $(p(x_i \mid x_{1:i-1}))$ across all positions gives the probability of the entire sequence.
 
 **Sequence probability** → enables **perplexity**, because perplexity is computed from the average negative log-likelihood assigned to the true next tokens.
 
@@ -219,9 +219,9 @@ A **token sequence** → enables probabilistic modeling, because the model can d
 
 ### 1. Sequence probability
 
-$$
+```math
 p(x_{1:L}) = \prod_{i=1}^{L} p(x_i \mid x_{1:i-1})
-$$
+```
 
 This formula says that the probability of a full token sequence can be factorized into a product of conditional next-token probabilities.
 
@@ -241,7 +241,7 @@ Key English expression:
 
 ### 2. Perplexity
 
-$$
+```math
 \text{PPL}
 =
 \exp\left(
@@ -249,18 +249,22 @@ $$
 \sum_{i=1}^{L}
 \log p(x_i \mid x_{1:i-1})
 \right)
-$$
+```
 
 Perplexity measures how uncertain the model is when predicting the true next token. It is the exponentiated average negative log-likelihood per token.
 
 Important interpretation:
-$$
+
+```math
 \text{lower perplexity} = \text{better language modeling}
-$$
+```
+
 But:
-$$
+
+```math
 \text{lower perplexity} \neq \text{stronger reasoning ability}
-$$
+```
+
 Key English expression:
 
 > Perplexity is the exponentiated average negative log-likelihood per token.
@@ -269,9 +273,9 @@ Key English expression:
 
 ### 3. Sequence scoring
 
-$$
+```math
 \hat{a} = \arg\max_{a_k} p(a_k \mid c)
-$$
+```
 
 This formula says that, given a context $c$, the model selects the candidate answer $a_k$ with the highest conditional probability.
 
@@ -289,16 +293,18 @@ Key English expression:
 
 ### 4. Conditional generation
 
-$$
+```math
 \hat{y} = \arg\max_y p(y \mid x)
-$$
+```
 
 This formula says that the model generates or selects the most likely output $y$ given input $x$.
 
 Examples:
-$$
+
+```math
 p(\text{answer} \mid \text{question})
-$$
+```
+
 Key English expression:
 
 > Conditional generation produces an output conditioned on an input.
@@ -327,7 +333,7 @@ You understood the basic idea of **prompt engineering**: prompts are designed to
 
 ## What needs review
 
-You should review the distinction between **source language** and **source sentence**, and between **target language** and **target sentence**. In translation formulas, (x) and (y) usually refer to  sequences or sentences, not the languages themselves.
+You should review the distinction between **source language** and **source sentence**, and between **target language** and **target sentence**. In translation formulas, $(x)$ and $(y)$ usually refer to  sequences or sentences, not the languages themselves.
 
 You should review **closed-book QA vs open-book QA**. Closed-book QA does not mean “offline”; it means the model answers without retrieving external documents. Open-book QA does not necessarily mean “searching the internet”; it means using retrieved external evidence.
 
@@ -336,15 +342,3 @@ You should review the relationship between **loss** and **perplexity**. Perplexi
 You should review **length bias** in sequence scoring. Longer sequences tend to get lower total probability because they involve multiplying more probabilities less than one, which is why length normalization is often needed.
 
 You should review the distinction between **pattern matching** and **algorithmic reasoning**. Language models can learn arithmetic-like patterns from text, but this does not necessarily mean they can perform reliable symbolic computation.
-
-You should continue improving technical English collocations, especially:
-
-> formulate A as B
-> reformulate X as Y
-> factorized into
-> conditioned on
-> task-specific model
-> in-context learning
-> externally retrieved evidence
-> digit-level manipulation
-> hallucination-free output
